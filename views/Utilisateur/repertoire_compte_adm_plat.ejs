@@ -1,0 +1,113 @@
+<%- include('../partials/head_admin'); %>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">PRENOM </th>
+                        <th scope="col">PSEUDO</th>
+                        <th scope="col">HÔPITAL</th>
+                        <th scope="col">ETAT</th>
+                        <th scope="col">ACTION</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <% if(typeof compte !== 'undefined' || compte != '') { %>
+                             <tr> 
+                                <td colspan="5"><input id="recherche_repertoire_compte_admin" oninput="recherche_repertoire_compte_admin(this)" type="text" placeholder="Rechercher par Prénom ou Pseudo ou Hôpital" style="width: 1000px;"></td> 
+                            </tr>
+                              <%  for(let i = 0 ;i < compte.length ; i++) { 
+                                    if (compte[i].etat == 'En Attente de desactivation') { %>
+                                    <tr class="ligne_repertoire_compte_admin" id="ligne_repertoire_compte_admin<%=i%>">
+                                        <td><%= compte[i].prenom %></td>
+                                        <td><%= compte[i].ps %></td>
+                                        <% if(compte[i].hd == 'hôpital système'){%>
+                                            <td>  </td>
+                                        <%}else{%>
+                                            <td><%= compte[i].hd %></td>
+                                        <%}%>
+                                        <td><%= compte[i].etat %></td>
+                                        <td>
+                                            <form method="post" action="/utilisateur/desactivation_adm" class="enligne"><input type="hidden" name="num_compte" value="<%=compte[i].id%>"><input type="hidden" name="num_hopital" value="<%=compte[i].id_hp%>"><input value="Desactiver" name="etat" type="submit" class="btn btn-primary mb-2"></form>&nbsp;&nbsp;
+                                            <form method="post" action="/utilisateur/activation_adm" class="enligne"><input type="hidden" name="num_compte" value="<%=compte[i].id%>"><input value="Rejetter" name="etat" type="submit" class="btn btn-danger mb-2"><input type="hidden" name="id_hopital" value="<%=compte[i].id_hp%>"></form>&nbsp;&nbsp;  
+                                            <form method="post" action="/administration/voir_profil_adm_platforme" style="display: inline;"><input type="hidden" name="num_hopital" value="<%= compte[i].id_hp %>"><input type="hidden" name="num_compte" value="<%= compte[i].id %>"><input value="Voir plus" name="profile" type="submit" class="btn btn-danger mb-2"></form>
+                                        </td>
+                                    </tr>
+                                    <%  }else { if (compte[i].etat == 'Desactiver') { %>
+                                            <tr class="ligne_repertoire_compte_admin" id="ligne_repertoire_compte_admin<%=i%>">
+                                                <td><%= compte[i].prenom %></td>
+                                                <td><%= compte[i].ps %></td>
+                                                <% if(compte[i].hd == 'hôpital système'){%>
+                                                    <td>  </td>
+                                                <%}else{%>
+                                                    <td><%= compte[i].hd %></td>
+                                                <%}%>
+                                                <td>Desactivé</td>
+                                                <td>
+                                                    <form method="post" action="/utilisateur/activation_adm" class="enligne"><input type="hidden" name="num_compte" value="<%=compte[i].id%>"><input type="hidden" name="num_hopital" value="<%=compte[i].id_hp%>"><input value="Activer" name="etat" type="submit" class="btn btn-primary mb-2"></form>
+                                                    <form method="post" action="/administration/voir_profil_adm_platforme" style="display: inline;"><input type="hidden" name="num_compte" value="<%=compte[i].id%>"><input type="hidden" name="num_hopital" value="<%=compte[i].id_hp%>"><input value="Voir plus" name="profile" type="submit" class="btn btn-danger mb-2"></form>
+                                                </td>
+                                            </tr>
+                                        <%  }
+                                        else { 
+                                            if (compte[i].etat == 'En Attente de Suppression') { %>
+                                            <tr class="ligne_repertoire_compte_admin" id="ligne_repertoire_compte_admin<%=i%>">
+                                                <td><%= compte[i].prenom %></td>
+                                                <td><%= compte[i].ps %></td>
+                                                <% if(compte[i].hd == 'hôpital système'){%>
+                                                    <td>  </td>
+                                                <%}else{%>
+                                                    <td><%= compte[i].hd %></td>
+                                                <%}%>
+                                                <td><%= compte[i].etat %></td>
+                                                <td>
+                                                    <form method="post" action="/utilisateur/Suppression_adm" class="enligne"><input type="hidden" name="num_compte" value="<%=compte[i].id%>"><input type="hidden" name="num_hopital" value="<%=compte[i].id_hp%>"><input value="Supprimer" name="etat" type="submit" class="btn btn-primary mb-2"></form>
+                                                    <form method="post" action="/utilisateur/activation_adm" class="enligne"><input value="Rejetter" name="etat" type="submit" class="btn btn-primary mb-2"><input type="hidden" name="num_compte" value="<%=compte[i].id%>"><input type="hidden" name="num_hopital" value="<%=compte[i].id_hp%>"></form>
+                                                    <form method="post" action="/administration/voir_profil_adm_platforme" style="display: inline;"><input type="hidden" name="num_compte" value="<%=compte[i].id%>"><input type="hidden" name="num_hopital" value="<%=compte[i].id_hp%>"><input value="Voir plus" name="profile" type="submit" class="btn btn-danger mb-2"></form>
+                                                </td>
+                                            </tr>
+                                        <%  }else{
+                                            if (compte[i].etat == 'Activer') { %>  
+                                                <tr class="ligne_repertoire_compte_admin" id="ligne_repertoire_compte_admin<%=i%>">
+                                                    <td><%= compte[i].prenom %></td>
+                                                    <td><%= compte[i].ps %></td>
+                                                    <% if(compte[i].hd == 'hôpital système'){%>
+                                                        <td>  </td>
+                                                    <%}else{%>
+                                                        <td><%= compte[i].hd %></td>
+                                                    <%}%>
+                                                    <td>Activé</td>
+                                                    <td> 
+                                                        <form method="post" action="/administration/voir_profil_adm_platforme" style="display: inline;"><input type="hidden" name="num_compte" value="<%=compte[i].id%>"><input type="hidden" name="num_hopital" value="<%=compte[i].id_hp%>"><input value="Voir plus" name="profile" type="submit" class="btn btn-danger mb-2"></form>
+                                                    </td>
+                                                </tr>
+                                            <% }else{
+                                            if(compte[i].etat == 'En attente activation'){ %>
+                                                <tr class="ligne_repertoire_compte_admin" id="ligne_repertoire_compte_admin<%=i%>">
+                                                    <td><%= compte[i].prenom %></td>
+                                                    <td><%= compte[i].ps %></td>
+                                                    <% if(compte[i].hd == 'hôpital système'){%>
+                                                        <td>  </td>
+                                                    <%}else{%>
+                                                        <td><%= compte[i].hd %></td>
+                                                    <%}%>
+                                                    <td><%= compte[i].etat %></td>
+                                                    <td> 
+                                                        <form method="post" action="/administration/voir_profil_adm_platforme" style="display: inline;"><input type="hidden" name="num_compte" value="<%=compte[i].id%>"><input type="hidden" name="num_hopital" value="<%=compte[i].id_hp%>"><input value="Voir plus" name="profile" type="submit" class="btn btn-danger mb-2"></form>
+                                                    </td>
+                                                </tr>
+                                            <% }
+                                            }
+                                        }
+                                    }
+                                    }
+                                }
+                        } %>
+                    </tbody>
+                </table> 
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../partials/footer'); %>

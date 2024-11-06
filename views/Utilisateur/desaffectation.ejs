@@ -1,0 +1,49 @@
+<%- include('../partials/head_admin_hopital') %>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="post" action="/utilisateur/desaffectation">
+                    <div class="row">
+                        <label for="wint1">Utilisateur :</label>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <% if(typeof c !== 'undefined') { %>
+                                    <select class="form-control required" name="user">
+                                    <% for (let i = 0; i < c.length; i++) { %>
+                                        <option value="<%= c[i].id %>"><%= c[i].ps %></option>
+                                    <% } %>
+                                    </select>
+                                <% } %>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary">Voir Service(s) affecté(s)</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-12">
+    <% if(typeof nv !== 'undefined') { %>
+        <label for="wint1">Service :</label>
+        <select class="form-control required" name="service">
+            <% for (let i = 0; i < nv.length; i++) { %>
+                <option value="<%= nv[i].id %>"><%= nv[i].designation %></option>
+            <% } %>
+        </select><br>
+    <% } %>
+    <% if(typeof c !== 'undefined') { %>
+        <label for="wint1">Utilisateur :</label>
+        <select class="form-control required" name="user">
+        <% for (let i = 0; i < c.length; i++) { %>
+            <option value="<%= c[i].id %>"><%= c[i].ps %></option>
+        <% } %>
+        </select>
+    <% } %>
+</div>
+<%- include('../partials/footer'); %>

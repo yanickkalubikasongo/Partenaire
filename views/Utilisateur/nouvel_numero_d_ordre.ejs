@@ -1,0 +1,132 @@
+<%- include('../partials/head_admin'); %>
+ <% if(typeof repertoire != 'undefined' && repertoire =='rep_num_ordre'){%>
+    <div class="row">
+        <div class="col-12">
+            <div class="card" style="border-top:3px solid green;">
+                <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">NUMERO D'ORDRE</th>
+                            <th scope="col">PRENOM</th>
+                            <th scope="col">NOM</th>
+                            <th scope="col">UNIVERSITE</th>
+                            <th scope="col">EMAIL</th>
+                            <th scope="col">TELEPHONE</th>
+                            <th scope="col">TYPE</th>
+                            <th scope="col">ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if(typeof liste_numero_ordre !== 'undefined' && liste_numero_ordre !='') { %>
+                            <tr> 
+                                <td colspan="8"><input id="recherche_hopital" oninput="recherche_hopital(this)" type="text" placeholder="Rechercher par Identifiant ou Numéro D'ordre" style="width: 1000px;"></td> 
+                            </tr>
+                        <% for(let i = 0 ;i < liste_numero_ordre.length ; i++) {%>
+                            <tr class="ligne_hopital" id="ligne_hopital<%=i%>">
+                                <td><%=liste_numero_ordre[i].id %></td>
+                                <td><%=liste_numero_ordre[i].prenom %></td>
+                                <td><%=liste_numero_ordre[i].postnom %></td>
+                                <td><%=liste_numero_ordre[i].universite %></td>
+                                <td><%=liste_numero_ordre[i].email %></td>
+                                <td><%=liste_numero_ordre[i].telephone %></td>
+                                <td><%=liste_numero_ordre[i].type %></td>
+                                <td>
+                                    <form method="post" action="/Numero_ordre/modifier_num_ordre" style="display: inline;"><input type="hidden" name="numero" value="<%= liste_numero_ordre[i].id %>"><% if(typeof id !=='undefined' && id == 1) {%><button value="Modifier" type="submit" class="btn btn-success mb-2" style="background:green; border-radius:100px"><% } %><i class="mdi mdi-pen"></i></button></form>
+                                </td>
+                            </tr>
+                        <% }
+                        } %>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+<%}
+if(typeof modification_numero_ordre != 'undefined' && modification_numero_ordre =='mdf_num_ordre'){%>
+    <div class="row">
+        <div class="col-6">
+            <div class="card" style="border-top:3px solid green;">
+                <div class="card-body" >
+                    <form method="post" action="/Numero_ordre/enregistrer_modif_num_ordre">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="wint1">Numéro D'ordre :</label>
+                                    <input type="text" name="numero" class="form-control required" id="wint1" aria-invalid="false" value="<%= numero_ordre[0].num_ordre %>">
+                                    <label id="wint1-error" class="text-danger" for="wint1" style="display: none;"></label> 
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="wint1">Type :</label><% let type = ['CNOM','Pour Infirmièr(e)'] %>
+                                    <select name="type_num_ordre" class="form-control">
+                                    <%  for (let i = 0; i < type.length; i++) { if(numero_ordre[0].type == type[i]){%>
+                                        <option selected value="<%= type[i] %>"><%=type[i] %></option>  
+                                    <%}else{%>
+                                        <option value="<%= type[i] %>"><%= type[i] %></option>
+                                    <%}}%>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input type="hidden" class="form-control required" value="<%= numero_ordre[0].id %>" name="num_ordre_modif" id="wint1" aria-invalid="false">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-b-0 text-right">
+                            <button type="submit" class="btn btn-success waves-effect waves-light" style="background:green;">Modifier &nbsp;<i class="mdi mdi-pen "></i></button>
+                        </div>
+                        <% if(typeof msg_enreg_modif !== 'undefined' && msg_enreg_modif == 'modif_num_ordre_succès') { %>
+                            <p style="color:blue">Mise à jour effectué avec succès</p>
+                        <% } %>
+                        <% if(typeof msg_enreg_modif !== 'undefined' && msg_enreg_modif == 'null_modif_num_ordre') { %>
+                            <p style="color:red">Zéro modification effectuée</p>
+                        <% } %>
+                        <% if(typeof msg_enreg_modif !== 'undefined' && msg_enreg_modif == 'err_doublon') { %>
+                            <p style="color:red">Ce Numéro d'ordre existe déjà</p>
+                        <% } %>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<%}
+if(typeof nouvel_num_ordre != 'undefined' && nouvel_num_ordre =='nv_num_ordre'){%>
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" action="/Numero_ordre/enregistrer_numero_ordre" enctype="multipart/form-data" accept-charset="UTF-8">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="wint1">Fichier (format .csv):</label>
+                                    <input type="file" accept=".csv" id="fichier_ordre" onchange="fichier_ordre_tel()" name="image" class="form-control required">
+                                    <label id="wint1-error" class="text-danger" for="wint1" style="display: none;"></label> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-b-0 text-right">
+                            <button id="enreg_num_ordre" disabled class="btn btn-success waves-effect waves-light">Enregistrer</button>
+                        </div>
+                        <p id="msg_cnom"></p>
+                        <% if(typeof msg_numero_ordre !== 'undefined' && msg_numero_ordre !='') { %>
+                            <% if(msg_numero_ordre =="text succès") { %>
+                                <p style="color: blue;">Fichier chargé avec succès</p>
+                            <% } else { if(msg_numero_ordre =='zero_upload'){%>
+                                <p style="color:blue">Ce fichier contient les données existantes dans la base de donnnées</p>
+                            <%}else{%>
+                                <p style="color:red"><%=msg_numero_ordre %></p>
+                            <%} } 
+                        }%>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<%}%>
+</div>
+<%- include('../partials/footer'); %>

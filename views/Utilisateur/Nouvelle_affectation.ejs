@@ -1,0 +1,75 @@
+<%- include('../partials/head_admin_hopital') %>
+<div class="col-12">
+    <div class="card" style="border-top: 4px solid #5ac146 ! important;">
+        <div class="card-body">
+                <div class="row">
+                    <div class="card">
+                        <div class="card-body">
+                          <table class="table">
+                              <thead>
+                                <tr>
+                                  <th scope="col">PSEUDO</th>
+                                  <th scope="col">PRENOM</th>
+                                  <th scope="col">NOM</th>
+                                  <th scope="col">SERVICES AFFECTES</th>
+                                  <th scope="col">SERVICE</th>
+                                  <th scope="col">ACTIONS</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <% if(typeof comptes !== 'undefined') { %>
+                                    <tr> 
+                                      <td colspan="6"><input id="recherche_service" oninput="recherche_chambre(this)" type="text" placeholder="Rechercher Utilisateur" style="width:900px;"></td> 
+                                    </tr>
+                                    <% for(let i = 0 ;i < comptes.length ; i++) { %>
+                                        <tr class="ligne_service" id="ligne_service<%=i%>">
+                                            <td><%= comptes[i].ps %></td>
+                                            <td><%= comptes[i].prenom %></td>
+                                            <td><%= comptes[i].nom %></td>
+                                            <td>
+                                                <% for (let y = 0; y < service_.length; y++) { if(comptes[i].id == service_[y].id_c ){ %>
+                                                    <span><%=service_[y].designation  %>, </span>
+                                                  <%} }%>
+                                            </td>
+                                            <td>
+                                                <select data-id="<%=i %>" class="service_compte form-control" onchange="affectation(this)">
+                                                    <option value="rien"></option>
+                                                    <% for (let i = 0; i < services.length; i++) {%>
+                                                        <option value="<%=services[i].id%>"><%=services[i].designation%></option>
+                                                    <% } %>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <% if(typeof services !== 'undefined' && services !='') { %>
+                                                    <form method="post" action="/utilisateur/enregistrer_affection" class="enligne" title="Affecter"><input type="hidden" name="user" value="<%= comptes[i].id %>"><input data-id="<%=i %>" class="valide_affectation" type="hidden" name="service"><button disabled value="Affecter" data-id="<%=i %>" type="submit" class="btn btn-success mb-2 affectation" style="background:green; border-radius:100px"><i class="mdi mdi-account-check"></i></button> </form>
+                                                    <form method="post" action="/utilisateur/enregistrer_desaffectation" class="enligne" title="Désaffecter"><input type="hidden" name="user" value="<%= comptes[i].id %>"><input data-id="<%=i %>" class="valide_desaffectation" type="hidden" name="service"><button disabled value="Desaffecter" data-id="<%=i %>" type="submit" class="btn btn-default mb-2 desaffectation" style="background:#ffd400; border-radius:100px"><i class="mdi mdi-account-off"></i></button></form>
+                                                 <% } %>
+                                            </td>
+                                        </tr>
+                                    <% } 
+                                }%>
+                              </tbody>
+                          </table>
+                        </div>
+                    </div>
+                </div> 
+                <% if(typeof affectation !== 'undefined' && affectation =='reussite_affectation') { %>
+                    <p style="color: blue;" class="affectation_reussi">Affectation réussie</p>
+                <% } %>
+                <% if(typeof affectation !== 'undefined' && affectation =='echec_affectation') { %>
+                    <p style="color: red;">L'utilisateur est déjà affecté à ce service</p>
+                <% } %>
+                <% if(typeof affectation !== 'undefined' && affectation =='affectation_jamais') { %>
+                    <p style="color: red;">L'utilisateur n'est pas (ou n'est plus) affecté à ce service</p>
+                <% } %>
+                <% if(typeof affectation !== 'undefined' && affectation =='affectation_minimum') { %>
+                    <p style="color: red;">L'utilisateur doit appartenir à au moins un service</p>
+                <% } %>
+                <% if(typeof affectation !== 'undefined' && affectation =='reussite_desaffectation') { %>
+                    <p style="color:blue;">Désaffectation réussie</p>
+                <% } %>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer'); %>

@@ -1,0 +1,101 @@
+<%- include('../partials/head_admin_hopital') %>
+<div class="col-12">
+    <div class="card">
+        <div class="card-body" style="background-color:#233242;">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">PRENOM </th>
+                    <th scope="col">PSEUDO</th>
+                    <th scope="col">NOM</th>
+                    <th scope="col">ETAT</th>
+                    <th scope="col">ROLE</th>
+                    <th scope="col">ACTION</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <% if(typeof comptes !== 'undefined') { %>
+                        <tr> 
+                            <td colspan="6"><input id="recherche_repertoire_compte_admin" oninput="recherche_repertoire_compte_hop(this)" type="text" placeholder="Rechercher par Prénom ou Pseudo" style="width: 1000px;"></td> 
+                        </tr>
+                       <% for(let i = 0,ligne = 0 ;i < comptes.length ; i++,ligne++) { 
+                            if (comptes[i].etat == 'En attente activation') { %>
+                                <tr class="ligne_repertoire_compte_admin" id="ligne_repertoire_compte_admin<%=ligne%>">
+                                    <td><%= comptes[i].prenom %></td>
+                                    <td><%= comptes[i].pseudo%></td>
+                                    <td><%= comptes[i].nom %></td>
+                                    <td><%= comptes[i].etat %></td>
+                                    <td><%= comptes[i].libelle %></td>
+                                    <td>
+                                        <form method="post" action="/utilisateur/activer" class="enligne" title="Activer">
+                                            <input type="hidden" name="num_compte" value="<%=comptes[i].id%>">
+                                            <button value="Activer" name="etat" type="submit" class="btn btn-success" style="background:green; border-radius: 100px;"><i class="mdi mdi-account-check"></i></button>
+                                            </form>
+                                        <form method="post" action="/administration/voir_profil_user_hopital" style="display: inline;"><input type="hidden" name="num_compte" value="<%=comptes[i].id %>"><input value="Voir plus" name="profile" type="submit" class="btn btn-danger mb-2"></form>
+                                    </td>
+                                </tr>
+                            <%  }else{
+                                    if (comptes[i].etat == 'En Attente de desactivation') { %>
+                                        <tr class="ligne_repertoire_compte_admin" id="ligne_repertoire_compte_admin<%=ligne%>">
+                                            <td><%= comptes[i].prenom %></td>
+                                            <td><%= comptes[i].pseudo %></td>
+                                            <td><%= comptes[i].nom %></td>
+                                            <td><%= comptes[i].etat %></td>
+                                            <td><%= comptes[i].libelle %></td>
+                                            <td>
+                                                <form method="post" action="/utilisateur/rejetter" class="enligne"><input type="hidden" name="num_compte" value="<%=comptes[i].id%>"><input value="Rejetter" name="etat" type="submit" class="btn btn-danger mb-2"></form>
+                                                <form method="post" action="/administration/voir_profil_user_hopital" style="display: inline;"><input type="hidden" name="num_compte" value="<%= comptes[i].id %>"><input value="Voir plus" name="profile" type="submit" class="btn btn-danger mb-2"></form>
+                                            </td>
+                                        </tr>
+                                    <%  }else{
+                                            if (comptes[i].etat == 'Activer') { %>
+                                                <tr class="ligne_repertoire_compte_admin" id="ligne_repertoire_compte_admin<%=ligne%>">
+                                                    <td><%= comptes[i].prenom %></td>
+                                                    <td><%= comptes[i].pseudo %></td>
+                                                    <td><%= comptes[i].nom %></td>
+                                                    <td>Activé</td>
+                                                    <td><%= comptes[i].libelle %></td>
+                                                    <td>
+                                                        <form method="post" action="/utilisateur/desactiver" class="enligne"><input type="hidden" name="num_compte" value="<%=comptes[i].id%>"><input value="Desactiver" name="etat" type="submit" class="btn btn-primary mb-2"></form>&nbsp;
+                                                        <form method="post" action="/utilisateur/supprimer" class="enligne"><input type="hidden" name="num_compte" value="<%=comptes[i].id%>"><input value="Supprimer" name="etat" type="submit" class="btn btn-danger mb-2"></form>
+                                                        <form method="post" action="/administration/voir_profil_user_hopital" style="display: inline;"><input type="hidden" name="num_compte" value="<%=comptes[i].id %>"><input value="Voir plus" name="profile" type="submit" class="btn btn-danger mb-2"></form>
+                                                    </td>
+                                                </tr>
+                                            <%  }else{
+                                                if (comptes[i].etat == 'Desactiver') { %>
+                                                    <tr class="ligne_repertoire_compte_admin" id="ligne_repertoire_compte_admin<%=ligne%>">
+                                                        <td><%= comptes[i].prenom %></td>
+                                                        <td><%= comptes[i].pseudo %></td>
+                                                        <td><%= comptes[i].nom %></td>
+                                                        <td><%= comptes[i].etat %></td>
+                                                        <td><%= comptes[i].libelle %></td>
+                                                        <td>   
+                                                            <form method="post" action="/administration/voir_profil_user_hopital" style="display: inline;"><input type="hidden" name="num_compte" value="<%= comptes[i].id %>"><input value="Voir plus" name="profile" type="submit" class="btn btn-danger mb-2"></form>
+                                                        </td>
+                                                    </tr>
+                                                    <%  }else{
+                                                    if (comptes[i].etat == 'En Attente de Suppression') { %>
+                                                    <tr class="ligne_repertoire_compte_admin" id="ligne_repertoire_compte_admin<%=ligne%>">
+                                                        <td><%= comptes[i].prenom %></td>
+                                                        <td><%= comptes[i].pseudo %></td>
+                                                        <td><%= comptes[i].nom %></td>
+                                                        <td><%= comptes[i].etat %></td>
+                                                        <td><%= comptes[i].libelle %></td>
+                                                        <td>
+                                                            <form method="post" action="/utilisateur/rejetter" class="enligne"><input type="hidden" name="num_compte" value="<%=comptes[i].id%>"><input value="Rejetter" name="etat" type="submit" class="btn btn-danger mb-2"></form>
+                                                            <form method="post" action="/administration/voir_profil_user_hopital" style="display: inline;"><input type="hidden" name="num_compte" value="<%= comptes[i].id %>"><input value="Voir plus" name="profile" type="submit" class="btn btn-danger mb-2"></form>
+                                                        </td>
+                                                    </tr>
+                                                    <%  }
+                                                    }
+                                                }
+                                        }
+                                }
+                            }
+                        } %>
+                </tbody>
+            </table> 
+        </div>
+    </div>
+</div>
+<%- include('../partials/footer'); %>

@@ -1,0 +1,34 @@
+<% if(admin == true){ %>
+  <%- include('../partials/head_admin_hopital'); %>
+  <% }else{ %>
+<%- include('../partials/head'); %>
+<% } %>
+<div class="row">
+ <div class="col-12">
+    <div class="card">
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Ouverture session</th>
+                <th scope="col">Fermeture session</th>
+                <th scope="col">Pseudo utilisateur</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% if(typeof journal_connexion_ !== 'undefined') {
+                     for (let i = 0; i < journal_connexion_.length; i++) { %>
+                        <tr>
+                            <td><%= journal_connexion_[i].dto %></td>
+                            <td><%=new Date(journal_connexion_[i].dtf).getDate() %>/<%=new Date(journal_connexion_[i].dtf).getMonth() %>/<%=new Date(journal_connexion_[i].dtf).getFullYear() %> <%=new Date(journal_connexion_[i].dtf).getHours() %>:<%=new Date(journal_connexion_[i].dtf).getMinutes() %>:<%=new Date(journal_connexion_[i].dtf).getSeconds() %></td>
+                            <td><%= journal_connexion_[i].pseudo%></td>
+                        </tr>
+                    <% }
+                }; %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  </div>
+</div>
+<%- include('../partials/footer'); %>

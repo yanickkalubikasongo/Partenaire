@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bienvenue !</title>
+  <link rel="stylesheet" href="/static/Assets/login/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/Assets/login/css/style.css">
+  <link href="/static/Assets/css/misesenforme.css">
+  <style>
+      .select{
+          background-color: red;
+       }
+      *{
+          -webkit-user-drag:none;
+      }
+  </style>
+</head>
+<body>
+<% if(typeof new_mdp !== 'undefined' && new_mdp == 'edit_new_mdp' && mdp_recup !=='undefined'){ %>
+    <br><br><br>
+    <div  class="form-container sign-in-container" style="height: 350px ! important ;">
+    <form method="post" action="/create_new_mdp" id="login-form" >
+      <div>
+          <div class="avatar-card">
+              <img class="card-avatar" width="10" height="10" src="/static/Assets/login/images/login1 (1).jpg" alt="image">
+          </div>
+      </div>
+      <br>
+      <input type="hidden" value="<%=mdp_recup %>" id="ancien_mdp">
+    <input type="password" oninput="new_mdp_recup()" id="nou_mdp" name="mdp" placeholder="Nouveau mot de passe"/>
+    <span id="erreur_nouveau_mdp"></span>
+    <input type="password" disabled oninput="confirm_mdp_recup()" id="repete_mdp" name="mdp_confirm" placeholder="Confirmer mot de passe" />
+    <span id="erreur_rep_nouveau_mdp"></span>
+    <button type="submit" disabled id="signIn">Soumettre</button>
+    <% if(typeof msg_err_new_mdp !== 'undefined' && msg_err_new_mdp == 'erreur_mdp_new'){ %>
+        <h6 id="erreur" style="color: red;">Les deux mot de passe ne correspondent pas</h6>
+    <% } %>
+    </form>
+    </div>
+<% }else{ %>
+    <div  class="form-container sign-in-container" style="height: 550px ! important ;">
+    <form method="post" action="/enregister_modif_mdp" id="login-form" >
+      <div>
+          <div class="avatar-card">
+              <img class="card-avatar" width="10" height="10" src="/static/Assets/login/images/login1 (1).jpg" alt="image">
+          </div>
+      </div>
+      <br>
+    <input style="height: 15px;" type="text"  name="pseudo" id="pseudo" placeholder="Entrer pseudo"/>
+    <input style="height: 15px;" type="email" name="email" id="email" placeholder="Email d'ouverture compte" />
+    <input style="height: 15px;" type="tel"  name="telephone" id="tel" placeholder="Tel d'ouverture compte" />
+    <input style="height: 15px;" type="text" name="prenom" id="prenom" placeholder="Prénom" />
+    <input style="height: 15px;" type="text" name="nom" id="nom" placeholder="Nom" />
+    <input style="height: 15px;" type="text" name="postnom" id="postnom" placeholder="Post-nom" />
+    <input style="height: 15px;" type="text" name="fruit" id="fruit" placeholder="Quel est votre fruit préféré ?" />
+    <input style="height: 15px;" type="text" name="voiture" id="voiture" placeholder="Quel est votre véhicule préféré ?" />
+    <input style="height: 15px;" type="date" name="date_ouverture" title="Date D'ouverture Compte" id="password" placeholder="Password" />
+      <button type="submit">Récupérer mot de passe</button>
+      <p id="alert-section" style="color: #fe7c96;position:absolute;top:83%;"></p>
+      <% if(typeof msg_echec_recup_mdp !== 'undefined' && msg_echec_recup_mdp == 'msg_echec_recup_mdp'){ %>
+        <h6 id="erreur" style="color: red;">Les informations rentrées ne sont pas correctes</h6>
+    <% } %>
+    </form>
+    </div>
+<% } %>
+<footer class="footer text-center">
+</footer>
+<script  src="/static/js/authentification.js"></script>
+</body>
+</html>

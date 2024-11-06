@@ -1,0 +1,98 @@
+<% if(typeof admin !== 'undefined' && admin[0].typee == 'Admin-hop'){ %>
+  <%- include('../partials/head_admin_hopital'); %>
+  <% }else{ %>
+<%- include('../partials/head'); %>
+<% } %> 
+  <div class="row">
+    <% if(typeof voir_profil_user !== 'undefined' && voir_profil_user == 'voir_profil_user')  { %> 
+      <div class="col-12">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Profil Utilisateur</h5>
+                </div>
+                <div class="modal-body">
+                  <table>
+                      <tr><td>Pseudo</td><td><%= cmt_[0].pseudo %></td> </tr>
+                      <tr><td>Nom</td><td><%= cmt_[0].nom %></td> </tr>
+                      <tr><td>Post-nom</td><td><%= cmt_[0].post_nom %></td></tr>
+                      <tr><td>Prénom</td><td><%= cmt_[0].prenom %></td></tr>
+                      <tr><td>Sexe</td><td><%= cmt_[0].sexe %></td></tr>
+                      <tr><td>Email</td><td><a href="mailto:<%= cmt_[0].email %>"><%= cmt_[0].email %></a></td></tr>
+                      <tr><td>Téléphone</td><td><a href="tel:<%= cmt_[0].telephone %>"><%= cmt_[0].telephone %></a></td></tr>
+                      <tr><td>Adresse Physique</td><td><%= cmt_[0].adresse_physique %></td></tr>
+                      <tr><td>Service(s)</td><td>
+                        <% for (let i = 0; i < service_.length; i++) { %>
+                          <span><%=service_[i].designation  %>, </span>
+                        <%} %>
+                        </td></tr>
+                  </table>
+                </div>
+                  <a align="center" href="/administration/modifier_user_hopital">Modifier ?</a> 
+              </div>
+            </div>
+      </div>
+    <% } %>
+    <% if(typeof modifier_profile_user !== 'undefined' && modifier_profile_user == 'modifier_profil_hopital')  { %> 
+      <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" action="/administration/enreg_modif_user_hop">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                  <label for="wint1">Pseudo :</label>
+                                  <input type="text" oninput="modification_info_pseudo(this)" value="<%= cmt_[0].pseudo %>" maxlength="15" name="pseudo" class="form-control required" aria-invalid="false" >
+                                  <label id="wint1-error" class="text-danger" for="wint1" style="display: none;"></label> 
+                                  <div id="erreur_pseudo"></div>
+                              </div>
+                          </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="wint1">Email :</label>
+                                    <input type="email" value="<%= cmt_[0].email %>" oninput="modification_info_email(this)" name="email" class="form-control required" aria-invalid="false" >
+                                    <label id="wint1-error" class="text-danger" for="wint1" style="display: none;"></label> 
+                                    <div id="erreur_email"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                  <label for="wint1">Téléphone :</label>
+                                  <input type="tel" value="<%= cmt_[0].telephone %>" oninput="modification_info_telephone(this)" name="telephone" class="form-control required" aria-invalid="false" >
+                                  <label id="wint1-error" class="text-danger" for="wint1" style="display: none;"></label> 
+                                  <div id="erreur_telephone"></div>
+                              </div>
+                            </div>
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                  <label for="wint1">Adresse Physique :</label>
+                                  <input type="text" maxlength="15" value="<%= cmt_[0].adresse_physique %>" oninput="modification_info_adresse_physique(this)" name="adresse_physique" class="form-control required" aria-invalid="false">
+                                  <label id="wint1-error" class="text-danger" for="wint1" style="display: none;"></label> 
+                                  <div id="erreur_adresse_physique"></div>
+                              </div>
+                            </div>
+                        
+                        </div>
+                        <div class="form-group m-b-0 text-right">
+                            <button type="submit" id="bnt_compte" class="btn btn-success waves-effect waves-light">Modifier</button>
+                        </div>
+                    </form>
+                    <% if(typeof msg_profil_hop !== 'undefined') { %>
+                      <% if(msg_profil_hop == 'reussite') { %>
+                        <p id="msg_enreg_reussite" style="color: blue;font-weight: bold;">Mise à jour reussie</p>
+                      <% } %>
+                      <% if(msg_profil_hop == 'Ce Pseudo existe déjà') { %>
+                        <p id="msg_enreg_reussite" style="color: rgb(253, 39, 50);font-weight: bold;"><%=msg_profil_hop %></p>
+                      <% } %>
+                      <% if(msg_profil_hop == 'Zéro changement effectué') { %>
+                        <p id="msg_enreg_reussite" style="color: rgb(236, 24, 24);font-weight: bold;"><%=msg_profil_hop %></p>
+                      <% }
+                    } %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } %>
+  </div>
+  <%- include('../partials/footer'); %>
