@@ -46,8 +46,8 @@ app.use(fileUpload());
 
 var sequelize = new Sequelize(
     "loanme",
-    "root",
-    "", {
+    "loanme_finuseco",
+    "F^Q*#CZz*_I4", {
         "dialect": "mysql",
         "storage": "./session.mysql"
     });
