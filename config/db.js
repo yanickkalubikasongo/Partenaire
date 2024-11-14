@@ -27,7 +27,7 @@ const Monnaie_electroniqueModel     = require('../models/monnaie_electronique');
 const venteImModel                  = require('../models/vente_im.model');
 
 const sequelize = new Sequelize('loanme','loanme_finuseco','F^Q*#CZz*_I4',{
-    host    : 'localhost',
+    host    : 'finuseco.com',
     dialect : 'mysql'
 });
 
