@@ -416,7 +416,7 @@ class Nouvelle_agence extends React.Component {
         },
         send_agence = await request_global("/agence/create","POST",dataAgence)
         if(send_agence.result =='deconnexion'){
-            window.location.replace("https://partner.loanmesfn.com/")
+            window.location.replace("https://finuseco.com/")
         }else{
             if(typeof send_agence.result !=='undefined'){
                 this.setState({msg: m});
@@ -567,7 +567,7 @@ class Repertoire_membre extends React.Component {
         find_membre = await request_global("/membre/find_membre","POST",data)
         
         if(find_membre.result =='deconnexion'){
-            window.location.replace("https://partner.loanmesfn.com/")
+            window.location.replace("https://finuseco.com/")
         }
 
         let response = find_membre.response
@@ -595,7 +595,7 @@ class Repertoire_membre extends React.Component {
             code_membre=''
         
         if(send.result =='deconnexion'){
-            window.location.replace("https://partner.loanmesfn.com/")
+            window.location.replace("https://finuseco.com/")
         }
         else{
             res.map(item => (
@@ -641,7 +641,7 @@ class Repertoire_membre extends React.Component {
         send = await request_global("/membre/on_membre","POST",data)
 
         if(send.result =='deconnexion'){
-            window.location.replace("https://partner.loanmesfn.com/")
+            window.location.replace("https://finuseco.com/")
         }
 
         let res        = send.result,
@@ -692,7 +692,7 @@ class Repertoire_membre extends React.Component {
         },
         send = await request_global("/membre/update","POST",data)
         if(send.result =='deconnexion'){
-            window.location.replace("https://partner.loanmesfn.com/")
+            window.location.replace("https://finuseco.com/")
         }
         if(send.result =='r'){
             this.setState({ state_msg:'r' })
@@ -725,7 +725,7 @@ class Repertoire_membre extends React.Component {
             },
             res_membre = await request_global("/membre/bannir","POST",data)
         if(res_membre.result =='deconnexion'){
-            window.location.replace("https://partner.loanmesfn.com/")
+            window.location.replace("https://finuseco.com/")
         }
 
        let res = res_membre.result
@@ -739,7 +739,7 @@ class Repertoire_membre extends React.Component {
         find_membre = await request_global("/membre/find_membre","POST",dataa)
 
         if(find_membre.result =='deconnexion'){
-            window.location.replace("https://partner.loanmesfn.com/")
+            window.location.replace("https://finuseco.com/")
         }
 
         let response = find_membre.response
@@ -1186,7 +1186,7 @@ class Nouvelle_membre extends React.Component {
             })
             .done((response)=>{
                 if(response.result =='deconnexion'){
-                    window.location.replace("https://partner.loanmesfn.com/")
+                    window.location.replace("https://finuseco.com/")
                 }else{
                     if(response.reponse=='r'){
                         this.setState({
@@ -1389,7 +1389,7 @@ class Update_structure extends React.Component {
             })
             .done((response)=>{
                 if(response.result =='deconnexion'){    
-                    window.location.replace("https://partner.loanmesfn.com/")
+                    window.location.replace("https://finuseco.com/")
                 }
                 if(response.result =='r'){    
                     this.setState({
@@ -1474,7 +1474,7 @@ class Update_structure extends React.Component {
     
         response = await request_global("/partenaire/tableau_bord","POST",{})
     if(response.result =='deconnexion'){
-        window.location.replace("https://partner.loanmesfn.com/")
+        window.location.replace("https://finuseco.com/")
     }
     solde_cdf.textContent             = (isNaN(parseFloat(response.result3).toFixed(2)) ? "0.00" : parseFloat(response.result3).toFixed(2)) + ' CDF',
     solde_usd.textContent             = (isNaN(parseFloat(response.result4).toFixed(2)) ? "0.00" : parseFloat(response.result4).toFixed(2)) + ' USD'
@@ -1624,7 +1624,7 @@ update.addEventListener('click',async (e)=>{
     let on_part = await request_global("/membre/all_part","POST",{})
 
     if(on_part.result =='deconnexion'){
-        window.location.replace("https://partner.loanmesfn.com/")
+        window.location.replace("https://finuseco.com/")
     }
 
     let res = on_part.result,
@@ -1661,7 +1661,7 @@ nouveau_membre.addEventListener('click',async (e)=>{
         ))
 
     if(response_rep_agence.result =='deconnexion'){
-        window.location.replace("https://partner.loanmesfn.com/")
+        window.location.replace("https://finuseco.com/")
     }
 
     let res_membre              = await request_global("/agence/rep_province","POST",{}),
@@ -1688,7 +1688,7 @@ repertoire_membre.addEventListener('click',async (e)=>{
     let rep_membre = await request_global("/membre/rep_membre","POST",{})
 
     if(rep_membre.result =='deconnexion'){
-        window.location.replace("https://partner.loanmesfn.com/")
+        window.location.replace("https://finuseco.com/")
     }
 
     let res = rep_membre.result,
@@ -1705,7 +1705,7 @@ async function check_statut(){
     if(stat.getAttribute('data-statut') == 'c') stat.setAttribute('data-statut','d')
     else{
         await request_global("/deconnexion","POST",{})
-        window.location.replace("https://partner.loanmesfn.com/")
+        window.location.replace("https://finuseco.com/")
     }
 }
 setInterval(check_statut,300000) // 5 min
