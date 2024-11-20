@@ -45,9 +45,9 @@ app.use(fileUpload());
 // create database, ensure 'mysql' in your package.json
 
 var sequelize = new Sequelize(
-    "loanme",
-    "loanme_finuseco",
-    "F^Q*#CZz*_I4", {
+    "finuseco_core_database",
+    "finuseco_core_u_s_e_r",
+    "hQwk-,Kb*4ho", {
         "dialect": "mysql",
         "storage": "./session.mysql"
     });
