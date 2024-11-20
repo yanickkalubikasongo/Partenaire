@@ -2,22 +2,22 @@
   "development": {
     "username": "root",
     "password": null,
-    "database": "loanme",
-    "host": "127.0.0.1",
+    "database": "finuseco_core_database",
+    "host": "157.173.207.96",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
     "password": null,
-    "database": "loanme",
-    "host": "127.0.0.1",
+    "database": "finuseco_core_database",
+    "host": "157.173.207.96",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
     "password": null,
-    "database": "loanme",
-    "host": "127.0.0.1",
+    "database": "finuseco_core_database",
+    "host": "157.173.207.96",
     "dialect": "mysql"
   }
 }
