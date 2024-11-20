@@ -26,8 +26,8 @@ const MembreModel                   = require('../models/membre.model');
 const Monnaie_electroniqueModel     = require('../models/monnaie_electronique');
 const venteImModel                  = require('../models/vente_im.model');
 
-const sequelize = new Sequelize('loanme','loanme_finuseco','F^Q*#CZz*_I4',{
-    host    : 'finuseco.com',
+const sequelize = new Sequelize('finuseco_core_database','finuseco_core_u_s_e_r','hQwk-,Kb*4ho',{
+    host    : '157.173.207.96',
     dialect : 'mysql'
 });
 
