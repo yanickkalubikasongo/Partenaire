@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Changement de mot de passe</title>
+    <title>Connexion</title>
 
     <!-- Custom fonts for this template-->
     <link href="/static/login/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -18,26 +18,62 @@
     <!-- Custom styles for this template-->
     <link href="/static/login/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <style>
+        /* Styles pour le spinner et les messages */
+        .spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #ff6600;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .success-message, .error-message {
+            display: none;
+            margin: 10px;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success-message {
+            background-color: #13db41;
+            color: white;
+        }
+        .error-message {
+            background-color: #fa1313;
+            color: white;
+        }
+    </style>
+
 </head>
 
-<body style="background-color: #ff6600;"><br><br><br>
+<body style="background-color: #ff6600;">
 
     <div class="container">
 
+
         <!-- Outer Row -->
         <div class="row justify-content-center">
-
-            <div class="col-xl-10 col-lg-12 col-md-9">
-
-                <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="col-xl-10 col-lg-10 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5" style="background-image: url('/static/login/img/vision9.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
+                        <div style="background-color: #696666;" class="card-header py-3">
+                            <h4 class="m-0 font-weight-bold text-center" style="color: #f5f6f8;">FINUSECO Partenaire !</h4>
+                        </div>
                         <div class="row">
-                            <div class="col-lg-6"><img style="margin-top: 100px;margin-left: 100px;width: 300px;height: 200px;" src="/static/login/img/loanme.png" alt=""></div>
+                            <div class="col-lg-6"><img style="margin-top: 47px;margin-left: 50px;width: 450px;height: 160px;" src="/static/login/img/loanme.png" alt=""></div>
                             <div class="col-lg-6">
                                 <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Changer mot de passe !</h1>
+                                    <form class="user" id="loginForm" method="post" action="/create_new_mdp">
+                                        <div style="background-color: #000e38;" class="card-header py-3">
+                                            <h4 class="m-0  text-center" style="color: #f5f6f8;">Changer mot de passe !</h4>
+                                            <div class="form-group">
                                     </div>
                                     <form class="user" method="post" action="/create_new_mdp">
                                         <div class="form-group">
@@ -58,6 +94,17 @@
                                         <button class="btn btn-user btn-block" style="background-color: #ff6600;color: white;"><i class="fas fa-edit "></i>&nbsp;Modifier</button>
                                     </form>
                                 </div>
+                                <div id="spinner" class="spinner"></div>
+                                    <div id="successMessage" class="success-message">Mot de passe changé avec succès !</div>
+                                    <div id="errorMessage" class="error-message">Erreur : Pseudo ou mot de passe incorrect.</div>
+                                </form>
+                                <div class="text-center">
+                                    <a class="small" href="/help">Aide et assistance !</a>
+                                </div>
+                                <h6 class="m-0 text-center" style="color: #fcfdff;">
+                                <span>Copyright &copy;  <a href="http://finuseco.com">FINUSECO</a> 2024</span>                                
+                            </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -70,15 +117,59 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="/static/login/vendor/jquery/jquery.min.js"></script>
-    <script src="/static/login/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/login/vendor/jquery/jquery.min.js"></script>
+  <script src="/static/login/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="/static/login/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <!-- Core plugin JavaScript-->
+  <script src="/static/login/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="/static/login/js/sb-admin-2.min.js"></script>
-    <script  src="/static/js/authentification.js"></script>
+  <!-- Custom scripts for all pages-->
+  <script src="/static/login/js/sb-admin-2.min.js"></script>
+
+  <!-- JavaScript pour afficher le spinner et les messages -->
+ <script>
+    const form = document.getElementById('loginForm');
+    const spinner = document.getElementById('spinner');
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage = document.getElementById('errorMessage');
+    const passwordInput = document.getElementById('exampleInputPassword');
+    const togglePassword = document.getElementById('togglePassword');
+
+    form.addEventListener('submit', function (event) {
+        // Afficher le spinner et cacher les messages
+        spinner.style.display = 'block';
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+
+        // Arrêter la soumission du formulaire pendant un moment
+        event.preventDefault();
+
+        // Simuler une connexion (remplacer par ta logique de validation réelle)
+        setTimeout(function () {
+            spinner.style.display = 'none';
+                // Laisser le formulaire se soumettre après 2 secondes si la connexion réussit
+                if (true) {
+                     // Remplace 'true' par ta logique de validation pour tester si la connexion réussit
+                     successMessage.style.display = 'block';
+                    setTimeout(function () {
+                        form.submit();  // Soumettre le formulaire après la simulation de validation
+                    }, 4000);  // Délai avant redirection
+                } else {
+                    errorMessage.style.display = 'block';
+                }
+            }, 4000);
+        });
+
+        // Toggle afficher/cacher mot de passe
+        togglePassword.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');  // Basculer entre l'icône 'fa-eye' et 'fa-eye-slash'
+        });
+    </script>
+    <script src="//code.tidio.co/fiivozwggwjeugddm1a2hpwv3aznyvtc.js" async>
+    </script>
+
 </body>
 
 </html>
