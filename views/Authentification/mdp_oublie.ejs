@@ -1,72 +1,209 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bienvenue !</title>
-  <link rel="stylesheet" href="/static/Assets/login/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/static/Assets/login/css/style.css">
-  <link href="/static/Assets/css/misesenforme.css">
-  <style>
-      .select{
-          background-color: red;
-       }
-      *{
-          -webkit-user-drag:none;
-      }
-  </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenue !</title>
+
+    <!-- Bootstrap et styles -->
+    <link rel="stylesheet" href="/static/Assets/login/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/Assets/login/css/style.css">
+    <link href="/static/Assets/css/misesenforme.css">
+
+    <style>
+        .select {
+            background-color: red;
+        }
+
+        * {
+            -webkit-user-drag: none;
+        }
+
+        .form-container {
+            height: auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .avatar-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="password"],
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            background-color: #ff6600;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #e55b00;
+        }
+
+        /* Styles pour le spinner et les messages */
+        .spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #ff6600;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .success-message,
+        .error-message {
+            display: none;
+            margin: 10px;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .success-message {
+            background-color: #13db41;
+            color: white;
+        }
+
+        .error-message {
+            background-color: #fa1313;
+            color: white;
+        }
+
+        .blocked-message {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .counter {
+            text-align: center;
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
 </head>
-<body>
-<% if(typeof new_mdp !== 'undefined' && new_mdp == 'edit_new_mdp' && mdp_recup !=='undefined'){ %>
-    <br><br><br>
-    <div  class="form-container sign-in-container" style="height: 350px ! important ;">
-    <form method="post" action="/create_new_mdp" id="login-form" >
-      <div>
-          <div class="avatar-card">
-              <img class="card-avatar" width="10" height="10" src="/static/Assets/login/images/login1 (1).jpg" alt="image">
-          </div>
-      </div>
-      <br>
-      <input type="hidden" value="<%=mdp_recup %>" id="ancien_mdp">
-    <input type="password" oninput="new_mdp_recup()" id="nou_mdp" name="mdp" placeholder="Nouveau mot de passe"/>
-    <span id="erreur_nouveau_mdp"></span>
-    <input type="password" disabled oninput="confirm_mdp_recup()" id="repete_mdp" name="mdp_confirm" placeholder="Confirmer mot de passe" />
-    <span id="erreur_rep_nouveau_mdp"></span>
-    <button type="submit" disabled id="signIn">Soumettre</button>
-    <% if(typeof msg_err_new_mdp !== 'undefined' && msg_err_new_mdp == 'erreur_mdp_new'){ %>
-        <h6 id="erreur" style="color: red;">Les deux mot de passe ne correspondent pas</h6>
+
+<body style="background-color: #ff6600;">
+
+    <div class="container">
+    <% if(typeof new_mdp !== 'undefined' && new_mdp === 'edit_new_mdp' && typeof mdp_recup !== 'undefined'){ %>
+        <div class="form-container">
+            <form method="post" action="/create_new_mdp" id="login-form">
+                <div class="avatar-card">
+                    <img class="card-avatar" src="/static/Assets/login/images/login1 (1).jpg" alt="Avatar">
+                </div>
+                <input type="hidden" value="<%=mdp_recup %>" id="ancien_mdp">
+                <input type="password" oninput="new_mdp_recup()" id="nou_mdp" name="mdp" placeholder="Nouveau mot de passe" />
+                <span id="erreur_nouveau_mdp"></span>
+                <input type="password" disabled oninput="confirm_mdp_recup()" id="repete_mdp" name="mdp_confirm" placeholder="Confirmer mot de passe" />
+                <span id="erreur_rep_nouveau_mdp"></span>
+                <button type="submit" disabled id="signIn">Soumettre</button>
+
+                <!-- Affichage des messages d'erreur -->
+                <% if(typeof msg_err_new_mdp !== 'undefined' && msg_err_new_mdp === 'erreur_mdp_new'){ %>
+                    <h6 id="erreur" style="color: red;">Les deux mots de passe ne correspondent pas</h6>
+                <% } %>
+                <div class="spinner" id="spinner"></div>
+                <div class="success-message" id="successMessage">Mot de passe modifié avec succès.</div>
+                <div class="error-message" id="errorMessage">Erreur lors de la modification du mot de passe.</div>
+            </form>
+        </div>
+    <% } else { %>
+        <div class="form-container">
+            <div class="form-container">
+                <form method="post" action="/enregister_modif_mdp" id="login-form">
+                        <div class="col-lg-6">
+                        <img style="margin-top: 0px;margin-left: 0px;width: 150px;height: 50px;" src="/static/login/img/loanme.png" alt="">
+                        <div class="col-lg-6">
+                        <div class="p-5">
+                <input type="text" name="pseudo" id="pseudo" placeholder="Entrer pseudo" />
+                <input type="email" name="email" id="email" placeholder="Email d'ouverture compte" />
+                <input type="tel" name="telephone" id="tel" placeholder="Tel d'ouverture compte" />
+                <input type="text" name="prenom" id="prenom" placeholder="Prénom" />
+                <input type="text" name="nom" id="nom" placeholder="Nom" />
+                <input type="text" name="postnom" id="postnom" placeholder="Post-nom" />
+                <input type="text" name="fruit" id="fruit" placeholder="Quel est votre fruit préféré ?" />
+                <input type="text" name="voiture" id="voiture" placeholder="Quel est votre véhicule préféré ?" />
+                <input type="date" name="date_ouverture" id="date_ouverture" title="Date D'ouverture Compte" />
+                <button type="submit">Récupérer mot de passe</button>
+
+                <!-- Messages d'erreur -->
+                <% if(typeof msg_echec_recup_mdp !== 'undefined' && msg_echec_recup_mdp === 'msg_echec_recup_mdp'){ %>
+                    <h6 id="erreur" style="color: red;">Les informations rentrées ne sont pas correctes</h6>
+                <% } %>
+                <div class="spinner" id="spinner"></div>
+                <div class="success-message" id="successMessage">Demande de récupération de mot de passe réussie.</div>
+                <div class="error-message" id="errorMessage">Erreur lors de la récupération du mot de passe.</div>
+            </form>
+        </div>
     <% } %>
-    </form>
-    </div>
-<% }else{ %>
-    <div  class="form-container sign-in-container" style="height: 550px ! important ;">
-    <form method="post" action="/enregister_modif_mdp" id="login-form" >
-      <div>
-          <div class="avatar-card">
-              <img class="card-avatar" width="10" height="10" src="/static/Assets/login/images/login1 (1).jpg" alt="image">
-          </div>
-      </div>
-      <br>
-    <input style="height: 15px;" type="text"  name="pseudo" id="pseudo" placeholder="Entrer pseudo"/>
-    <input style="height: 15px;" type="email" name="email" id="email" placeholder="Email d'ouverture compte" />
-    <input style="height: 15px;" type="tel"  name="telephone" id="tel" placeholder="Tel d'ouverture compte" />
-    <input style="height: 15px;" type="text" name="prenom" id="prenom" placeholder="Prénom" />
-    <input style="height: 15px;" type="text" name="nom" id="nom" placeholder="Nom" />
-    <input style="height: 15px;" type="text" name="postnom" id="postnom" placeholder="Post-nom" />
-    <input style="height: 15px;" type="text" name="fruit" id="fruit" placeholder="Quel est votre fruit préféré ?" />
-    <input style="height: 15px;" type="text" name="voiture" id="voiture" placeholder="Quel est votre véhicule préféré ?" />
-    <input style="height: 15px;" type="date" name="date_ouverture" title="Date D'ouverture Compte" id="password" placeholder="Password" />
-      <button type="submit">Récupérer mot de passe</button>
-      <p id="alert-section" style="color: #fe7c96;position:absolute;top:83%;"></p>
-      <% if(typeof msg_echec_recup_mdp !== 'undefined' && msg_echec_recup_mdp == 'msg_echec_recup_mdp'){ %>
-        <h6 id="erreur" style="color: red;">Les informations rentrées ne sont pas correctes</h6>
-    <% } %>
-    </form>
-    </div>
-<% } %>
-<footer class="footer text-center">
-</footer>
-<script  src="/static/js/authentification.js"></script>
+
+    <!-- Footer -->
+    <footer class="footer text-center"></footer>
+
+    <!-- Scripts -->
+    <script src="/static/js/authentification.js"></script>
+
+    <!-- Ajout du script pour afficher le spinner lors de la soumission -->
+    <script>
+        const form = document.getElementById('login-form');
+        const spinner = document.getElementById('spinner');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            spinner.style.display = 'block'; // Afficher le spinner
+            successMessage.style.display = 'none'; // Cacher les messages
+            errorMessage.style.display = 'none';
+
+            // Simuler la soumission et gestion des erreurs
+            setTimeout(function () {
+                spinner.style.display = 'none'; // Cacher le spinner après soumission
+                const isSuccess = Math.random() >= 0.5; // Simuler le succès ou l'échec
+                if (isSuccess) {
+                    successMessage.style.display = 'block';
+                } else {
+                    errorMessage.style.display = 'block';
+                }
+            }, 2000);
+        });
+    </script>
+    <script src="//code.tidio.co/fiivozwggwjeugddm1a2hpwv3aznyvtc.js" async>
+    </script>
 </body>
+
 </html>
