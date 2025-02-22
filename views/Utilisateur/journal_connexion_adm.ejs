@@ -1,0 +1,36 @@
+ <%- include('../partials/head_admin'); %>
+  <div class="row">
+   <div class="col-12">
+      <div class="card">
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">OUVERTURE SESSION</th>
+                  <th scope="col">FERTURE SESSION</th>
+                  <th scope="col">PSEUDO UTILISATEUR</th>
+                  <th scope="col">HÔPITAL</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <% if(typeof journal_connexion_ !== 'undefined') {
+                       for (let i = 0; i < journal_connexion_.length; i++) { %>
+                          <tr>
+                            <td><%=journal_connexion_[i].date_heure_con %></td>
+                            <td><%=journal_connexion_[i].date_heure_decon %></td>
+                            <td><%=journal_connexion_[i].pseudo %></td>
+                            <%if(journal_connexion_[i].ds == 'hôpital système') {%>
+                              <td></td>
+                            <%}else{%>
+                              <td><%=journal_connexion_[i].ds %></td>
+                            <%}%>
+                          </tr>
+                      <% }
+                  }; %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </div>
+  </div>
+  <%- include('../partials/footer'); %>

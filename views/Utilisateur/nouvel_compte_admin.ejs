@@ -1,0 +1,142 @@
+<%- include('../partials/head_admin'); %>
+<div class="row">
+    <div class="col-12">
+        <h4>Nouveau Compte Administrateur</h4>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <% if(typeof message_compt_ad !== 'undefined' && message_compt_ad == 'Compte enregistré avec succès') { %>
+                                    <span style="color: blue;"><%=message_compt_ad %><br></span><br>
+                                <% }else{ %>
+                                    <span class="erreur" style="color: red;"><%=message_compt_ad %><br></span><br>
+                                <%} %>
+                            <form method="post" action="/utilisateur/enregistrer_compte_admin">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="wint1">Prénom* :</label>
+                                                <input type="text" name="prenom" maxlength="15" class="form-control required" id="prenom" aria-invalid="false">
+                                                <span id="erreur_prenom"></span>
+                                            </div>   
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="wint1">Nom* :</label>
+                                                <input type="text" name="nom" maxlength="15" class="form-control required" id="nom" aria-invalid="false">
+                                                <span id="erreur_nom"></span> 
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="wint1">Post-nom* :</label>
+                                                <input type="tel" name="post_nom" maxlength="15" class="form-control required" id="post_nom" aria-invalid="false">
+                                                <span id="erreur_post_nom"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="wint1">Pseudo* :</label>
+                                                <input type="text" name="pseudo" maxlength="15" class="form-control required" id="pseudo" aria-invalid="false">
+                                                <span id="erreur_pseudo"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="wint1">Date de naissance<span class="etoile">*</span>  :</label>
+                                                <input type="date" name="datenaiss" class="form-control required" maxlength="10" id="datenaiss" aria-invalid="false">
+                                                <span id="erreur_date_naiss"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="wint1">Fruit préféré* :</label>
+                                                <input type="text" name="fruit"  class="form-control required" id="fruit" aria-invalid="false">
+                                                <span id="erreur_fruit_prefere"></span>  
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="wint1">Sexe* :</label>
+                                                <select class="form-control required" name="sexe">
+                                                    <option value="M">M</option>
+                                                    <option value="F">F</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="wint1">Téléphone* :</label>
+                                                <input type="tel" name="telephone"  class="form-control required" id="telephone" aria-invalid="false">
+                                                <span id="erreur_telephone"></span> 
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="wint1">Adresse éléctronique* :</label>
+                                                <input type="email" name="adresse_electronique" class="form-control required" id="adresse_electronique" aria-invalid="false">
+                                                <span id="erreur_adresse_electronique"></span> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="wint1">Mot de passe* :</label>
+                                                <input type="password"  name="mdp" class="form-control required" id="mdp" aria-invalid="false">
+                                                <span id="erreur_mdp"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="wint1">Répéter Mot de passe<span class="etoile">*</span> :</label>
+                                                <input type="password" name="mdp_repete" class="form-control required" maxlength="10"  id="mdp_repete" aria-invalid="false">
+                                                <span id="erreur_mdp_repete"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="wint1">Véhicule préféré* :</label>
+                                                <input type="text" name="vehicule" class="form-control required" id="vehicule" aria-invalid="false">
+                                                <span id="erreur_vehicule"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="wint1">Adresse physique* :</label>
+                                                <input type="text" name="adresse_physique" class="form-control required" id="adresse_physique" aria-invalid="false">
+                                                <span id="erreur_adresse_physique"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <% if(hop !='' && id !='') { %>
+                                            <div class="form-group">
+                                                <input type="hidden" value="<%=hop[0].id %>" name="hopital">
+                                                <input type="hidden" value="<%=id %>" name="id_cmp_actionnaire">
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                    <% if(typeof msg !== 'undefined') { %>
+                                        <h6><%=msg  %></h6>
+                                    <% } %>
+                                </div><br>  
+                                <div class="form-group m-b-0 text-right">
+                                    <button type="submit" id="btn_compt" class="btn btn-success waves-effect waves-light pull-right">Créer</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../partials/footer'); %>

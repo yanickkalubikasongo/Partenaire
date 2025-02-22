@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Changement de mot de passe</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/static/login/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/static/login/css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body style="background-color: #ff6600;"><br><br><br>
+
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6"><img style="margin-top: 100px;margin-left: 100px;width: 300px;height: 200px;" src="/static/login/img/loanme.png" alt=""></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Changer mot de passe !</h1>
+                                    </div>
+                                    <form class="user" method="post" action="/create_new_mdp">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-user" name="pseudo" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Pseudo">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" name="mdp" class="form-control form-control-user" id="nou_mdp" placeholder="Ancien Mot de Passe">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" id="new_mdp" name="new_mdp" class="form-control form-control-user" placeholder="Nouveau Mot de Passe">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" id="repete_mdp" name="mdp_confirm" class="form-control form-control-user" placeholder="Répété Mot de Passe">
+                                        </div>
+                                        <% if(typeof msg !== 'undefined'){ %>
+                                            <span id="erreur_rep_nouveau_mdp" style="color: brown;"><%= msg %></span>
+                                        <% } %>
+                                        <button class="btn btn-user btn-block" style="background-color: #ff6600;color: white;"><i class="fas fa-edit "></i>&nbsp;Modifier</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/static/login/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/login/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/static/login/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/static/login/js/sb-admin-2.min.js"></script>
+    <script  src="/static/js/authentification.js"></script>
+</body>
+
+</html>

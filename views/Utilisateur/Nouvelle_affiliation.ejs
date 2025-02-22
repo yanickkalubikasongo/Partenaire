@@ -1,0 +1,294 @@
+<%- include('../partials/head_admin'); %>
+<% if(typeof hop !== 'undefined' && typeof compte !== 'undefined') { %>
+    <div class="row">
+        <div class="col-12">
+            <div class="card" style="border-top: 3px solid green">
+                <div class="card-body">
+                    <h4 class="card-title">Nouvelle Affiliation Médecin| Infirmier(e)</h4><hr>
+                    <br>
+                    <form method="post" action="/utilisateur/formulaire_affiliation">
+                        <div class="row">
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="control-label">Hôpital :</label>
+                                    <select class="form-control" name="hopital">
+                                        <% for (let i = 0; i < hop.length; i++) { if (hop[i].designation != 'hôpital système') {%>
+                                            <% if(typeof id_hopital_ !== 'undefined' && id_hopital_ == hop[i].id) { %>
+                                                <option selected value="<%= hop[i].id %>"><%= hop[i].designation %></option>
+                                        <% }else{  %>
+                                            <option value="<%= hop[i].id %>"><%= hop[i].designation %></option>
+                                        <% }}} %>
+                                    </select> 
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="wint1">Médecin ou Infirmier(e) :</label>
+                                    <div class="form-group">
+                                        <input type="tel" name="numero_ord" oninput="numero_ordre(this)" placeholder="Numéro D'ordre" maxlength="50" class="form-control required" id="id_user" aria-invalid="false">
+                                        <span id="erreur_telephone"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" name="id" value="<%= id %>">
+                            <% if(compte !='' && hop !='') { %>
+                                <div class="col-md-12">
+                                    <button type="submit" id="btn_dmd_affiliation" disabled class="btn btn-success float-right" style="background:green;box-shadow: 1px 2px 3px 4px rgba(12,12,12,0.2);">Nouvelle Affiliation &nbsp;<i class="mdi mdi-plus-circle"></i></button>
+                                </div>
+                            <% } %>
+                        </div>
+                    </form>
+                   <% if(typeof msg_alerte_affiliation !== 'undefined' && msg_alerte_affiliation =='Affiliation Reussie') { %>
+                        <p style="color: blue;"><%=msg_alerte_affiliation %></p>
+                    <% } %>
+                    <% if(typeof msg_alerte_affiliation !== 'undefined' && msg_alerte_affiliation =='etre') { %>
+                        <p style="color: red;">Ce Médecin ou Infirmier est déjà membre de cet hôpital</p>
+                    <% } %>
+                    <% if(typeof msg_alerte_affiliation !== 'undefined' && msg_alerte_affiliation =='absence') { %>
+                        <p style="color: red;">Ce Médecin ou Infirmier est introuvable</p>
+                    <% } %>
+                    <p class="hop_absent" style="color: red;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>
+<% if(typeof etat_user !== 'undefined' && (etat_user == 'ancien_appartenant' || etat_user == 'nouveau')) { %>
+    <h4>Nouvelle Affiliation</h4>
+     <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body" style="border-top: 3px solid green;">
+                    <% if(typeof erreurs !== 'undefined') { %>
+                        <% for (let i = 0; i < erreurs.length; i++) { %>
+                            <p class="erreur"><%=erreurs[i] %></p>
+                        <% } %>
+                    <% } %>
+                    <form method="post" action="/utilisateur/Nouvelle_affiliation">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="wint1">Prénom :</label>
+                                        <input type="text" readonly value="<%if(compte !='') { %><%=compte[0].prenom %> <% } %>" name="prenom" class="form-control required" aria-invalid="false">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="wint1">Nom :</label>
+                                        <input type="text" readonly value="<%if(compte !=''){%><%=compte[0].nom %> <% } %>" name="nom" class="form-control required" aria-invalid="false">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="wint1">Postnom :</label>
+                                        <input type="tel" readonly value="<%if(compte !='') { %><%=compte[0].postnom %> <% } %>" name="post_nom" class="form-control required" aria-invalid="false">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="wint1">Téléphone :</label>
+                                        <input type="tel" readonly value="<%if(compte !='') { %><%=compte[0].telephone %><% } %>" name="telephone" class="form-control required" aria-invalid="false">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="wint1">Numéro d'ordre:</label>
+                                        <input type="text" readonly value="<%if(compte !='') { %><%=compte[0].id %><% } %>" name="numero_ordre" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="wint1">Rôle :</label>
+                                        <%if(compte !='' && compte[0].type =='CNOM') { %>
+                                            <input type="text" readonly value="Médecin" class="form-control required">
+                                            <input type="hidden" value="2" name="role">
+                                        <% } %>
+                                        <%if(compte !='' && compte[0].type =='ONIC') { %>
+                                            <input type="text" readonly value="Infirmièr(e)" class="form-control required">
+                                            <input type="hidden" value="3" name="role">
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="wint1">Spécialisation :</label>
+                                        <input type="tel" readonly value="<%if(compte !='') { %><%=compte[0].specialite %><% } %>" class="form-control required" aria-invalid="false">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="wint1">Adresse éléctronique :</label>
+                                        <input readonly type="email" readonly value="<%if(compte !='') { %><%=compte[0].email %><% } %>" name="adresse_electronique" class="form-control required" aria-invalid="false">
+                                    </div>
+                                </div>
+                                <% if(typeof etat_user !== 'undefined' && etat_user == 'ancien_non_affilier') { %>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Fruit Préféré :</label>
+                                            <input type="text" data-fruit="fruit" id="fruit_pefere_affiliation"  readonly name="fruit" value="<%if(compte2 !='') { %><%=compte2[0].fruit_prefere %><% } %>" class="form-control required">
+                                        </div>
+                                    </div>
+                                <% }else{ %>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Fruit Préféré :</label>
+                                            <input type="text" id="fruit_pefere_affiliation" name="fruit" oninput="fruit_prefere_aff(this)" class="form-control required"> 
+                                            <div id="erreur_fruit_aff"></div>
+                                        </div>
+                                    </div>
+                                <% } %>
+                                <% if(typeof etat_user !== 'undefined' && etat_user == 'ancien_non_affilier') { %>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Véhicule Préféré :</label>
+                                            <input type="text" readonly name="voiture" value="<%if(compte2 !='') { %><%=compte2[0].vehicule_prefere %><% } %>" class="form-control required" aria-invalid="false">
+                                        </div>
+                                    </div>
+                                <% }else{ %>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Véhicule Préféré :</label>
+                                            <input type="text" id="vehicule_prefere_affiliation" oninput="vehicule_prefere(this)" name="voiture" class="form-control required">
+                                            <div id="erreur_vehicule_prefere"></div> 
+                                        </div>
+                                    </div>
+                                <% } %>
+                                <% if(typeof etat_user !== 'undefined' && etat_user == 'ancien_non_affilier') { %>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Date de naissance :</label>
+                                            <input type="text" readonly name="datenaiss" value="<%if(compte2 !='') { %><%=compte2[0].date_naissance %><% } %>" class="form-control required">
+                                        </div>
+                                    </div>
+                                <% }else{ %>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Date de naissance :</label>
+                                            <input oninput="date_naissance_aff(this)" type="date" id="date_naissance_affiliation" name="datenaiss" class="form-control required">
+                                            <div id="erreur_date_affiliation"></div> 
+                                        </div>
+                                    </div>
+                                <% } %>
+                                <% if(typeof etat_user !== 'undefined' && etat_user == 'ancien_non_affilier') { %>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Sexe :</label>
+                                            <select disabled name="sexe" id="sexe" class="form-control required">
+                                                <option value="<%if(compte2 !='') { %><%=compte2[0].sexe %><% } %>"><%if(compte2 !='') { %><%=compte2[0].sexe %><% } %></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                <% }else{ %>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Sexe :</label>
+                                            <select name="sexe" id="sexe" class="form-control required">
+                                                <option value="M">M</option>
+                                                <option value="F">F</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <div class="col-4">
+                                <% if(typeof etat_user !== 'undefined' && etat_user == 'ancien_non_affilier') { %>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Pseudo :</label>
+                                            <input type="text" readonly name="pseudo" value="<%if(compte2 !='') { %><%=compte2[0].pseudo %><% } %>" class="form-control required" aria-invalid="false">
+                                            <input type="hidden" name="etat" value="ancien_non_affilier" class="form-control required" aria-invalid="false">
+                                        </div>
+                                    </div>
+                                <% }
+                                if(typeof etat_user !== 'undefined' && etat_user == 'ancien_revenu'){%>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Pseudo :</label>
+                                            <input type="text" oninput="pseudo_aff(this)" name="pseudo" class="form-control required" id="pseudo_affiliation">
+                                            <input type="hidden" name="etat" value="ancien_revenu" class="form-control required" aria-invalid="false">
+                                            <div id="erreur_pseudo_affiliation"></div> 
+                                        </div>
+                                    </div>
+                                <%}if(typeof etat_user !== 'undefined' && etat_user == 'nouveau'){ %>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Pseudo :</label>
+                                            <input type="text" oninput="pseudo_aff(this)" name="pseudo" class="form-control required" id="pseudo_affiliation">
+                                            <input type="hidden" name="etat" value="nouveau" class="form-control required" aria-invalid="false">
+                                            <div id="erreur_pseudo_affiliation"></div> 
+                                        </div>
+                                    </div>
+                                <% } %>
+                                <% if(typeof etat_user !== 'undefined' && etat_user == 'ancien_non_affilier') { %>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Adresse physique :</label>
+                                            <input type="text" readonly name="adresse_physique" value="<%if(compte2 !='') { %><%=compte2[0].adresse_physique %><% } %>" class="form-control required" aria-invalid="false">
+                                        </div>
+                                    </div>
+                                <% }else{ %>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Adresse physique :</label>
+                                            <input type="text" oninput="adresse_physique_aff(this)" id="adresse_physique_affiliation" name="adresse_physique" class="form-control required" aria-invalid="false">
+                                            <div id="erreur_adresse_physique_aff"></div> 
+                                        </div>
+                                    </div>
+                                <% } %>
+                                <% if(typeof etat_user !== 'undefined' && (etat_user == 'nouveau' || etat_user == 'ancien_revenu')) { %>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Mot de passe :</label>
+                                            <input type="password" oninput="mdp_aff(this)" id="mdp_affiliation" name="mdp" class="form-control required">
+                                            <div id="erreur_mdp_aff"></div> 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Répéter Mot de passe :</label>
+                                            <input type="password" oninput="repete_mdp_aff(this)" name="mdp_repete" id="repete_mdp_affiliation" class="form-control required">
+                                            <div id="erreur_mdp_repete"></div> 
+                                        </div>
+                                    </div>
+                                <% } %>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="wint1">Service :</label>
+                                        <select class="form-control required" name="service">
+                                            <%if(serv !='') { %>
+                                                <% for (let i = 0; i < serv.length; i++) { %>
+                                                    <option value="<%=serv[i].id %>"><%=serv[i].designation %></option>
+                                                <% } %>
+                                            <% } %>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br>
+                        <div class="row">
+                        </div>  
+                        <div class="form-group m-b-0 text-right">
+                            <input type="hidden" value="<%if(id_hopital_ !=''){%><%=id_hopital_ %><% } %>" name="hopital">
+                            <% if(typeof etat_user !== 'undefined' && (etat_user == 'ancien_non_affilier' || etat_user == 'ancien_revenu')) { %>
+                                <input type="hidden" value="<%if(compte2 !='') { %><%=compte2[0].id %><% } %>" name="id_compte_concerne">
+                            <% } %>
+                            <input type="hidden" value="<%=etat_user %>" name="etat_utilisateur">
+                            <input type="hidden" value="<%if(id_hopital_ !=''){%><%=id_actionnaire %><% } %>" name="id_cmp_actionnaire">
+                            <button type="submit" id="btn_affiliation" disabled class="btn btn-success float-right" style="background:green;">Affilier &nbsp;<i class="mdi mdi-check"></i></button>
+                        </div>
+                        <% if(typeof message_mise_a_jour !== 'undefined') { %>
+                            <p><%=message_mise_a_jour  %></p>
+                        <% } %>
+                    </form>
+                    <p id="mdp_match" style="color: red;">Les deux mot de passe doivent correspondre</p>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %></div>
+<%- include('../partials/footer'); %>

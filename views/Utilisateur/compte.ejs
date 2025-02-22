@@ -1,0 +1,201 @@
+<%- include('../partials/head_admin'); %>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" action="/utilisateur/formulaire_compte">
+                        <div class="row">
+                            <label for="wint1">Hôpital :</label>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <select class="form-control col-12 enligne" name="hopital">
+                                        <% for (let i = 0; i < hop.length; i++) { 
+                                            if (hop[i].designation != 'hôpital système'){%>
+                                                <% if(typeof id_hopital_ !== 'undefined' && id_hopital_ == hop[i].id) { %>
+                                                    <option selected value="<%= hop[i].id %>"><%= hop[i].designation %></option>
+                                                <% }else{  %>
+                                                    <option value="<%= hop[i].id %>"><%= hop[i].designation %></option>
+                                                <% }
+                                            }
+                                        } %>
+                                    </select>
+                                </div>
+                            </div>
+                            <% if( hop != '') { %>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary">Nouvel Compte</button>
+                            </div>
+                            <% } %>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% if(typeof serv !== 'undefined') { %>
+        <h4>Compte Utilisateur</h4>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <% if(typeof message_compte_hopital !== 'undefined' && message_compte_hopital == 'Compte crée avec succès') { %>
+                                <span style="color: blue;" class="erreur"><%=message_compte_hopital %><br></span><br>
+                        <% }else{ %>
+                            <% if(typeof message_compte_hopital !== 'undefined' && message_compte_hopital == 'Erreur survenue lors de l\'operation') { %>
+                                <span style="color: rgb(255, 0, 72);" class="erreur"><%=message_compte_hopital %><br></span><br>
+                            <% }else{ %> 
+                                <% if(typeof message_compte_hopital !== 'undefined' && message_compte_hopital == 'Les deux mot de passe ne correspondent pas') { %>
+                                    <span style="color: rgb(255, 0, 72);" class="erreur"><%=message_compte_hopital %><br></span><br>
+                                <% } else { %>
+                                    <span style="color: rgb(255, 0, 72);" class="erreur"><%=message_compte_hopital %><br></span><br>
+                                <% } %>
+                            <% } %>
+                        <% } %>
+                        <form method="post" action="/utilisateur/enregistrer_compte">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Rôle<span class="etoile">*</span>  :</label>
+                                            <select class="form-control required" onchange="role_compte(this)" name="role" id="role">
+                                                <% for (let i = 0; i < role.length; i++) { %>
+                                                    <option value="<%=role[i].id %>"><%=role[i].libelle %></option>
+                                                <% } %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Prénom<span class="etoile">*</span> :</label>
+                                                <input type="text" name="prenom" oninput="prenom_compte(this)" maxlength="15" class="form-control required" id="prenom" aria-invalid="false">
+                                            <span id="erreur_prenom"></span>
+                                        </div>   
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Nom<span class="etoile">*</span>  :</label>
+                                            <input type="text" name="nom" oninput="nom_compte(this)" value="<% if(typeof ident_numero_ordre !== 'undefined' && ident_numero_ordre !=''){ %> <%=ident_numero_ordre[0].nom %> <% } %>" maxlength="15" class="form-control required" id="nom" aria-invalid="false">
+                                            <span id="erreur_nom"></span> 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Post-nom<span class="etoile">*</span>  :</label>
+                                            <input type="tel" name="post_nom" maxlength="15" oninput="postnom(this)" value="<% if(typeof ident_numero_ordre !== 'undefined' && ident_numero_ordre !=''){ %> <%=ident_numero_ordre[0].postnom %> <% } %>" class="form-control required" id="post_nom" aria-invalid="false">
+                                            <span id="erreur_post_nom"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Pseudo<span class="etoile">*</span>  :</label>
+                                            <input type="text" name="pseudo" placeholder="Jean" oninput="pseudo_compte(this)" maxlength="15" class="form-control required" id="pseudo" aria-invalid="false">
+                                            <span id="erreur_pseudo"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Sexe<span class="etoile">*</span>  :</label>
+                                            <select id="sexe" class="form-control required" name="sexe">
+                                                <option value="M">M</option>
+                                                <option value="F">F</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Fruit préféré<span class="etoile">*</span> :</label>
+                                            <input type="text" name="fruit" oninput="fruit_compte(this)" maxlength="15" class="form-control required" id="fruit" aria-invalid="false">
+                                            <span id="erreur_fruit_prefere"></span> 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Téléphone<span class="etoile">*</span> :</label>
+                                            <input type="tel" name="telephone" oninput="telephone_compte(this)" value="<% if(typeof ident_numero_ordre !== 'undefined' && ident_numero_ordre !=''){ %> <%=ident_numero_ordre[0].telephone %> <% } %>" maxlength="15" class="form-control required" id="telephone" aria-invalid="false">
+                                            <span id="erreur_telephone"></span> 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Adresse éléctronique<span class="etoile">*</span> :</label>
+                                            <input type="email" name="adresse_electronique" value="<% if(typeof ident_numero_ordre !== 'undefined' && ident_numero_ordre !=''){ %> <%=ident_numero_ordre[0].email %> <% } %>" oninput="adresse_electronique_compte(this)" class="form-control required" id="adresse_electronique" aria-invalid="false">
+                                            <span id="erreur_adresse_electronique"></span> 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Date de naissance<span class="etoile">*</span>  :</label>
+                                            <input type="date" name="datenaiss" class="form-control required" oninput="date_naiss(this)" maxlength="10" id="datenaiss" aria-invalid="false">
+                                            <span id="erreur_date_naiss"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Mot de passe<span class="etoile">*</span>  :</label>
+                                            <input type="password" name="mdp" class="form-control required" maxlength="10" oninput="mdp_compte(this)" id="mdp" aria-invalid="false">
+                                            <span id="erreur_mdp"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Répéter Mot de passe<span class="etoile">*</span> :</label>
+                                            <input type="password" name="mdp_repete" class="form-control required" maxlength="10" oninput="mdp_compte_repete(this)" id="mdp_repete" aria-invalid="false">
+                                            <span id="erreur_mdp_repete"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Véhicule préféré<span class="etoile">*</span> :</label>
+                                            <input type="text" name="vehicule" oninput="vehicule_compte(this)" maxlength="15" class="form-control required" id="vehicule" aria-invalid="false">
+                                            <span id="erreur_vehicule"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Adresse physique<span class="etoile">*</span> :</label>
+                                            <input type="text" name="adresse_physique" oninput="adresse_physique_compte(this)" maxlength="30" class="form-control required" id="adresse_physique" aria-invalid="false">
+                                            <span id="erreur_adresse_physique"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="wint1">Service<span class="etoile">*</span> :</label>
+                                                <select class="form-control required" name="service">
+                                                    <% for (let i = 0; i < serv.length; i++) { %>
+                                                        <option value="<%=serv[i].id %>"><%=serv[i].designation %></option>
+                                                    <% } %>
+                                                </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <input type="hidden" value="<%=id_hopital_ %>" name="hopital">
+                                        <input type="hidden" value="<%=id %>" name="id_cmp_actionnaire">
+                                    </div>
+                                </div>
+                                <% if(typeof msg !== 'undefined') { %>
+                                    <h6><%=msg  %></h6>
+                                <% } %>
+                            </div><br>  
+                            <div class="form-group m-b-0 text-right">
+                                <button type="submit" id="btn_compt" onclick="btn_compte" class="btn btn-success waves-effect waves-light pull-right">Créer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+     <% } %>
+<%- include('../partials/footer'); %>

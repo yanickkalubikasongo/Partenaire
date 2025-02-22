@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": null,
+    "database": "finuseco_core_database",
+    "host": "157.173.207.96",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "finuseco_core_database",
+    "host": "157.173.207.96",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "finuseco_core_database",
+    "host": "157.173.207.96",
+    "dialect": "mysql"
+  }
+}
