@@ -130,7 +130,7 @@ module.exports={
                                         avec succès chez ${get_label_patner[0].denomination}
                                         IM : ${code_partenaire+'-'+ code_us}
                                         Merci.`,
-                                        url = `https://api2.dream-digital.info/api/SendSMS?api_id=API12506297241&api_password=x3McB19tzd&sms_type=T&encoding=T&sender_id=LoanMe SFN&phonenumber=${numPhone}&textmessage=${message}`;
+                                        url = `https://api2.dream-digital.info/api/SendSMS?api_id=API12506297241&api_password=x3McB19tzd&sms_type=T&encoding=T&sender_id=FINUSECO&phonenumber=${numPhone}&textmessage=${message}`;
                                         await axios.get(url);
                                     response = 6
                                 }
